@@ -279,8 +279,11 @@ public class FloatDecoration extends RecyclerView.ItemDecoration {
                 mRecyclerViewPaddingRight - mHeaderLeftMargin - mHeaderRightMargin;
         RecyclerView.LayoutManager layoutManager = parent.getLayoutManager();
         if (layoutManager instanceof GridLayoutManager) {
-            int spanCount = ((GridLayoutManager) layoutManager).getSpanCount();
-            widthSize /= spanCount;
+            GridLayoutManager gridLayoutManager = (GridLayoutManager) layoutManager;
+            int preFloatPosition = findPreFloatPosition(parent);
+            int spanSize = gridLayoutManager.getSpanSizeLookup().getSpanSize(preFloatPosition);
+            int spanCount = gridLayoutManager.getSpanCount();
+            widthSize /= spanSize/spanCount;
         }
         final int widthSpec = View.MeasureSpec.makeMeasureSpec(widthSize, View.MeasureSpec.EXACTLY);
         final int heightSpec = View.MeasureSpec.makeMeasureSpec(heightSize, heightMode);
